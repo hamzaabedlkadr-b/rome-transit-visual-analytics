@@ -26,7 +26,7 @@ python3 -m pip install -r requirements.txt
 python3 prepare_data.py
 ```
 
-The script reads `data/rome_static_gtfs_2026-11-16.zip` and writes `web/data/rome_transport.json` plus `data_validation.json`. Run `python3 make_figures.py` to regenerate the publication figures from that prepared JSON. It selects **Wednesday 18 November 2026** from the official [Roma Servizi per la Mobilità GTFS feed](https://romamobilita.it/sistemi-e-tecnologie/open-data/). It is a schedule, not a punctuality or ridership dataset. The original ZIP is 47.7 MB; the browser data file is compact and contains only derived fields needed for analysis.
+The script reads `data/rome_static_gtfs_2026-11-16.zip` and writes `web/data/rome_transport.json` plus `data_validation.json`. Run `python3 make_figures.py` to regenerate the publication figures from that prepared JSON. The feed was downloaded on **16 November 2026** and already contained planned service for **Wednesday 18 November 2026**, which this analysis selects. These are future timetable entries, not observations from 18 November; no punctuality or ridership conclusions are possible. The source is the official [Roma Servizi per la Mobilità GTFS feed](https://romamobilita.it/sistemi-e-tecnologie/open-data/). The original ZIP is 47.7 MB; the browser data file is compact and contains only derived fields needed for analysis.
 
 ## Explore
 
