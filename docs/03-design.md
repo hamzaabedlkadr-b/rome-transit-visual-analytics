@@ -14,6 +14,8 @@ Unselected points use muted tones and selected points use dark ink in both plots
 
 The user brushes a map region, sees its stops in PCA and reads the recomputed summary. Brushing a PCA region reverses the path, revealing geography. A point click supports named-stop inspection. Clear resets the selection. The shared `stop_id` index set is the sole selection state so views cannot disagree.
 
+This implements Sacha et al.'s **data selection and emphasis** scenario for interaction with dimensionality reduction: the PCA coordinates are computed once, while selections made in either view emphasize the same records in the other. The [prototype capture](../prototype.png) is the current design mockup and the [paired-view figure](../report/coordinated_views.png) shows one PCA selection.
+
 ## Alternatives rejected
 
 - A choropleth would require area aggregation and hide individual stops, including adjacent stops with different service.

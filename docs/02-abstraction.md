@@ -18,6 +18,17 @@ One row in the application is one GTFS `stop_id` active on **18 November 2026**.
 
 The system supports **locate, select, compare, summarize and characterize** tasks. The geographic view supports location selection; PCA supports profile selection. Both selections cause a fresh group-versus-rest median and time-profile computation. This is a user-driven analytical calculation, not merely a visibility filter.
 
+## Ordered analysis path
+
+| Step | Input available to the analyst | Task | Result |
+| --- | --- | --- | --- |
+| 1 | Mapped active stops and named busiest-stop list | Locate a region or named stop of interest | A geographic candidate group |
+| 2 | Map brush and linked PCA highlights | Compare the group's profile positions | Evidence of whether service patterns are similar or mixed |
+| 3 | Selected-versus-remaining medians, route context and hourly bars | Characterize the difference | A quantified departure contrast and time profile |
+| 4 | PCA brush and reverse map highlight | Find where an unusual profile occurs | A spatial distribution for follow-up route analysis |
+
+A planner or researcher performs all four steps. For example, brushing a low-PC1 region yields lower typical scheduled departure counts and then reveals where those stops lie; the system does not equate this with poor access because demand and connectivity are absent.
+
 ## Data quality and scope
 
 The snapshot has 8,325 stops with valid bounded coordinates; 8,252 receive at least one scheduled departure on the selected date. It includes 38,558 active trips and 1,153,216 qualifying stop-time departures. Stop IDs, not physical station complexes, define the units. Platforms or nearby poles may therefore count separately. The app does not infer trips per person or travel-time accessibility.

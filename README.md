@@ -3,6 +3,8 @@
 **Student:** Hamza Abdul Kader · solo project · [GitHub account](https://github.com/hamzaabedlkadr-b)  
 **Course status:** Local working project. Group registration, course-assigned repository and proposal approval are still pending. The official source is a dynamic timetable; this repository keeps the specific 16 November 2026 download so results can be reproduced.
 
+**Expected exam session:** First available session; update this line when the date is announced.
+
 ## Run the dashboard
 
 From this folder:

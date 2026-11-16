@@ -50,6 +50,7 @@ function renderHours(chosen) {
   const totals=Array(24).fill(0);
   for (const row of chosen) row.h.forEach((v,h)=>totals[h]+=v);
   const sum=totals.reduce((a,b)=>a+b,0),max=Math.max(...totals,1);
+  $('hour-scale').textContent=sum?`Share of selected departures per hour · vertical scale 0–${(100*max/sum).toFixed(1)}%`:'Select stops to show the share scale.';
   totals.forEach((v,h)=>{
     const column=document.createElement('div');column.className='hour-col';
     const bar=document.createElement('div');bar.className='hour-bar';
