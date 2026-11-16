@@ -1,6 +1,6 @@
 # 18-minute exam presentation and live demo
 
-This is a speaking plan, not a claim that course approval or user evaluation has happened. Aim for 8 slides and leave 2 minutes of a 20-minute slot for transitions.
+This is a speaking plan, not a claim that course approval or user evaluation has happened. Aim for 9 slides and leave about 2 minutes of a 20-minute slot for transitions.
 
 | Slide | Time | Main point | Show |
 | --- | ---: | --- | --- |
@@ -10,8 +10,9 @@ This is a speaking plan, not a claim that course approval or user evaluation has
 | 4. Design | 2 min | Map and PCA share stop selection; summary recalculates | Annotated coordinated-views figure |
 | 5. PCA choices | 2 min | Five standardized features; 64.71% retained in two axes | Loadings and variance table |
 | 6. Live demo | 4 min | Brush map, inspect PCA and hourly profile; brush PCA, return to geography | Running dashboard |
-| 7. Findings | 3 min | PLEBISCITO has 2,298 scheduled stop departures; PC1 separates schedule volume; PC2 differs in time profile | Counts and selected-versus-rest example |
-| 8. Validation and limits | 2 min | Automated browser checks; no observed punctuality or ridership; user walkthrough pending | Validation and limitation list |
+| 7. Findings | 2 min | PLEBISCITO has 2,298 scheduled stop departures; PC1 separates schedule volume; PC2 differs in time profile | Counts and selected-versus-rest example |
+| 8. Geographic check | 2 min | Scheduled service tends to decline with distance from Termini, though group distributions overlap | Radial boxplots and hourly profiles |
+| 9. Validation and limits | 1 min | Automated browser checks; no observed punctuality or ridership; user walkthrough pending | Validation and limitation list |
 
 ## Live-demo sequence
 

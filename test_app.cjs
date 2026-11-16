@@ -10,6 +10,8 @@ const path=require('node:path');
   const loadMs=Date.now()-start;
   const payload=await page.evaluate(async()=>await (await fetch('data/rome_transport.json')).json());
   if(payload.rows.length!==8252)throw Error('Unexpected prepared stop count');
+  const figuresLoaded=await page.locator('#research-figures img').evaluateAll(images=>images.length===2&&images.every(image=>image.complete&&image.naturalWidth>0));
+  if(!figuresLoaded)throw Error('Analysis figures failed to load');
   const top=[...payload.rows].sort((a,b)=>b.d-a.d)[0];
   await page.locator('.district').first().click();
   if((await page.locator('#count').innerText())!=='1')throw Error('Top-stop selection failed');

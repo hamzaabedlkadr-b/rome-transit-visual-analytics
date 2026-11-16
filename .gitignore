@@ -7,3 +7,5 @@ report/*.log
 report/*.out
 .presentation-build/
 .codex-finalizer/
+.plotdeps/
+.plotcache/

@@ -9,7 +9,8 @@
 <body>
   <header>
     <div><p class="eyebrow">Visual analytics · Rome · 18 November 2026 timetable</p><h1>Where is scheduled transit service concentrated?</h1>
-      <p class="intro">Compare stops by location, scheduled departures, route diversity and time-of-day profile. Brush either view to recompute the comparison.</p></div>
+      <p class="intro">Compare stops by location, scheduled departures, route diversity and time-of-day profile. Brush either view to recompute the comparison.</p>
+      <nav class="view-nav" aria-label="Dashboard sections"><a href="#linked-views">Map and PCA</a><a href="#detail-views">Hourly chart and busiest stops ↓</a><a href="#research-figures">Analysis figures ↓</a></nav></div>
     <a href="https://romamobilita.it/sistemi-e-tecnologie/open-data/" target="_blank" rel="noopener">Data: Roma Mobilità ↗</a>
   </header>
   <main>
@@ -24,17 +25,19 @@
       </div>
       <p id="mix" class="mix"></p>
     </section>
-    <div class="views">
+    <div class="views" id="linked-views">
       <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 01 · GEOGRAPHY</p><h2>Scheduled stops across Rome</h2></div><p>Brush a rectangle or click a stop</p></div>
-        <div class="plot" id="map-wrap"><canvas id="map" aria-label="Geographic scatterplot of Rome transit stops"></canvas><div class="brush" id="map-brush"></div></div>
+        <div class="plot" id="map-wrap"><canvas id="map" aria-label="Geographic scatterplot of Rome transit stops"></canvas><div class="brush" id="map-brush"></div><div class="tooltip" id="map-tip"></div></div>
+        <div class="point-legend"><span class="legend-dot muted"></span> All stops <span class="legend-dot dark"></span> Selected stops</div>
         <p class="note">Each dot is one scheduled stop. Dark dots are selected in both views. Coordinates come from the GTFS stop table.</p>
       </section>
       <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 02 · STOP PROFILES</p><h2>Service patterns (PCA)</h2></div><p>Brush a rectangle or click a stop</p></div>
-        <div class="plot" id="pca-wrap"><canvas id="pca" aria-label="PCA scatterplot of stop service profiles"></canvas><div class="brush" id="pca-brush"></div></div>
+        <div class="plot" id="pca-wrap"><canvas id="pca" aria-label="PCA scatterplot of stop service profiles"></canvas><div class="brush" id="pca-brush"></div><div class="tooltip" id="pca-tip"></div></div>
+        <div class="point-legend"><span class="legend-dot muted"></span> All stops <span class="legend-dot dark"></span> Selected stops</div>
         <p class="note" id="pca-note">PCA summarizes scheduled departures, route diversity, morning and evening shares, and rail-mode share.</p>
       </section>
     </div>
-    <div class="views lower-views">
+    <div class="views lower-views" id="detail-views">
       <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 03 · TIME PROFILE</p><h2>Departures by clock hour</h2></div></div>
         <p id="hour-scale" class="scale-note">Select stops to show the share scale.</p>
         <div id="hours" class="hour-chart" aria-label="Hourly scheduled departures for selected stops"></div>
@@ -48,6 +51,10 @@
     <section class="method"><h2>How to interpret this view</h2>
       <p>Map and PCA selections coordinate in both directions. Each visual selection triggers a new median-departure comparison and an hourly departure profile. The first two PCA axes explain <span id="variance">—</span> of standardized feature variance. A point's PCA distance is a summary of five features, not a route distance.</p>
       <p>This is a static schedule for Wednesday 18 November 2026, retrieved 16 November. It does not measure vehicle arrivals, delays, crowding, demand, or access. The feed can change. See the <a href="../data_validation.json">data audit</a> and <a href="../docs/04-algorithms.md">method details</a>.</p>
+    </section>
+    <section class="panel research" id="research-figures"><div class="panel-head"><div><p class="eyebrow">EVIDENCE FROM THE SAME SNAPSHOT</p><h2>Analysis figures</h2></div><p>Static companion figures for the paper</p></div>
+      <div class="figure-grid"><figure><a href="../report/figures/service_radius.png" target="_blank"><img src="../report/figures/service_radius.png" alt="Boxplots of scheduled departures by distance from Termini and hourly shares for two distance bands"></a><figcaption>Scheduled departures vary by distance from Termini; distributions overlap. The right panel compares two hourly profiles.</figcaption></figure>
+      <figure><a href="../report/figures/pca_loadings.png" target="_blank"><img src="../report/figures/pca_loadings.png" alt="Bar charts of feature loadings on the first two PCA components"></a><figcaption>PC1 weights service volume and route diversity; PC2 weights morning and evening shares. The two axes explain 64.7% of standardized feature variance.</figcaption></figure></div>
     </section>
   </main>
   <footer>Roma Servizi per la Mobilità GTFS · Snapshot retrieved 16 November 2026 · Visual Analytics coursework</footer>

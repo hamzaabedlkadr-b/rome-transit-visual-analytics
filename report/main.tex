@@ -19,10 +19,19 @@ Transit planners and transport researchers may need to find stops that warrant c
 \section{Related work and design framework}
 Munzner's nested model separates domain questions, data and task abstraction, visual encodings and algorithms; the companion project documents record decisions at these levels~\cite{munzner}. Sacha et al. describe interactions that connect dimensionality reduction to other views, including selection and emphasis~\cite{sacha}. We use a fixed PCA projection linked to a geographic view. The GTFS Schedule Reference defines the source tables and the meaning of a stop-time departure; it also distinguishes scheduled times from observed operation~\cite{gtfs}. Roma Servizi per la Mobilit\`a publishes the Rome feed and notes that its service information can vary in operation~\cite{rsm}.
 
+Prommaharaj et al.'s PubtraVis uses Calgary GTFS data to show transit operation through mobility, speed, flow, density, headway and analysis modules, including side-by-side comparisons~\cite{pubtravis}. Our smaller system concentrates on the stop as a multivariate unit: linked geographic and PCA selections directly trigger a selected-versus-remaining calculation. PubtraVis also involved transit professionals in evaluation, whereas our present user definition remains an explicit assumption to validate.
+
 \section{Data and abstraction}
 We downloaded the official static GTFS ZIP on 16 November 2026 and selected service IDs active on 18 November using \texttt{calendar\_dates.txt}. We joined active trips, routes, stop times and stops. One application row is one active \texttt{stop\_id}. We excluded records explicitly marked as no-pickup and stops with invalid or out-of-bounds coordinates. The resulting subset has 8,252 active stops from 8,325 valid-coordinate stops, 38,558 active trips, 403 active routes and 1,153,216 scheduled stop-time departures. A stop is not a station complex: nearby platforms may have distinct IDs. Times after 24:00 are folded to their clock hour in the hourly display but remain part of the chosen GTFS service day.
 
 The five PCA inputs are log scheduled departures, log distinct routes, morning (07--09) departure share, evening (17--19) share and rail-mode share. The first two are counts; the last three are proportions. Each feature is clipped at its 1st and 99th percentiles for PCA only and then standardized. Raw counts remain in the numerical comparison. Singular-value decomposition yields the projection; signs are set so positive PC1 corresponds to more departures and positive PC2 to larger morning share. PC1 explains 36.62\% and PC2 28.09\% of feature variance.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.9\linewidth]{figures/pca_loadings.pdf}
+\caption{Feature loadings for the two displayed principal components. Positive PC1 weights emphasize schedule volume and distinct routes; positive PC2 weights emphasize morning and evening shares. Signs were fixed for interpretability.}
+\label{fig:loadings}
+\end{figure}
 
 \begin{table}[h]
 \centering
@@ -56,6 +65,15 @@ The encoding uses geographic position for location and PCA position for multivar
 \section{Exploratory findings and validation}
 The feed's busiest stop ID in this analysis is PLEBISCITO, with 2,298 scheduled departures across 32 distinct routes. This is a count of published stop-time records, not passengers. Stops with PC1 greater than 1 (1,953 stops) have a median of 250 departures and five routes per stop; stops with PC1 below $-1$ (2,375 stops) have medians of 46 departures and one route. These are exploratory projection thresholds. Because departure count and route diversity are inputs to PC1, the separation confirms the component's interpretation and is not an independent discovery about service equity. For PC2 greater than 1, the morning/evening shares of all departures are 18.3\% and 17.7\%; below $-1$, they are 12.6\% and 11.6\%. This suggests a useful time-profile contrast to investigate further, while leaving route composition and geography as possible explanations.
 
+As a separate descriptive check on the geographic pattern, we measured straight-line distance from the GTFS Termini stop coordinate (41.901308, 12.500433). Median scheduled departures per stop are 195.5 within 3 km (840 stops), 136 from 3--6 km (1,741), 124 from 6--10 km (2,450), 71 from 10--20 km (2,676), and 56 from 20--60 km (545). Figure~\ref{fig:radius} shows the distributions rather than only those medians, along with daily time profiles for the nearest and 10--20 km groups. The central group has a larger share of departures at 00--04 than the 10--20 km group; both have broad daytime service. Distance is a geographic descriptor, not a measure of accessibility or service quality.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/service_radius.pdf}
+\caption{Independent descriptive check of the dated GTFS snapshot. Left: scheduled departures per stop by straight-line distance from Termini, with boxes spanning the interquartile range and whiskers extending to 1.5 times that range; outliers are omitted for legibility. Right: each group's scheduled departures as a share of its own daily total by clock hour. The line styles remain distinguishable in grayscale.}
+\label{fig:radius}
+\end{figure}
+
 A local headless Chrome test checked data loading, a named-stop selection against the prepared data, map-to-PCA and PCA-to-map brushing, summary updates, clearing and absence of JavaScript errors. One run loaded in 572 ms and completed the two browser-driven brushes in 35 and 27 ms on the test machine. A target-user walkthrough and repeated performance tests remain necessary before final submission. The one-day schedule says nothing about actual arrival times, cancellations, crowding, ridership or the population near a stop. The static feed can also change between publication dates.
 
 \section{Discussion and threats to validity}
@@ -73,5 +91,6 @@ Codex assisted with source discovery and generated the data preparation script, 
 \bibitem{sacha} D. Sacha et al., ``Visual interaction with dimensionality reduction: A structured literature analysis,'' \emph{IEEE TVCG}, 23(1), 2017. doi:10.1109/TVCG.2016.2598495.
 \bibitem{gtfs} MobilityData, \emph{GTFS Schedule Reference}. \url{https://gtfs.org/documentation/schedule/reference/}.
 \bibitem{rsm} Roma Servizi per la Mobilit\`a, \emph{Open data e controllo satellitare del trasporto pubblico (AVM)}. \url{https://romamobilita.it/sistemi-e-tecnologie/open-data/}. Accessed 16 November 2026.
+\bibitem{pubtravis} P. Prommaharaj et al., ``Visualizing public transit system operation with GTFS data: A case study of Calgary, Canada,'' \emph{Heliyon}, 6(4), e03729, 2020. doi:10.1016/j.heliyon.2020.e03729.
 \end{thebibliography}
 \end{document}

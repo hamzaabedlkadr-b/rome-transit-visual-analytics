@@ -16,6 +16,8 @@ The user brushes a map region, sees its stops in PCA and reads the recomputed su
 
 This implements Sacha et al.'s **data selection and emphasis** scenario for interaction with dimensionality reduction: the PCA coordinates are computed once, while selections made in either view emphasize the same records in the other. The [prototype capture](../prototype.png) is the current design mockup and the [paired-view figure](../report/coordinated_views.png) shows one PCA selection.
 
+At a standard laptop width, the two large plots remain side by side so a rectangular brush is precise enough to inspect dense stops. The hourly profile and ranked stops follow below and can be reached with the page's named navigation links. This deliberate vertical flow keeps the linked plots large instead of squeezing four small charts into one viewport; the static research figures are separate evidence at the end. The user can return to the main plots with the navigation link or browser scroll.
+
 ## Alternatives rejected
 
 - A choropleth would require area aggregation and hide individual stops, including adjacent stops with different service.
