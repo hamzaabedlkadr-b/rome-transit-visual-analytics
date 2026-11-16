@@ -1,0 +1,77 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,booktabs,graphicx,geometry,microtype,hyperref}
+\geometry{margin=20mm}
+\hypersetup{hidelinks}
+\title{Coordinated Exploration of Scheduled Transit Service in Rome}
+\author{Hamza Abdul Kader\\Sapienza University of Rome}
+\date{Visual Analytics 2026--27 \quad Working paper, 16 November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+This paper presents a visual analytics system for exploring the published supply of Rome public transit service at the stop level. A geographic view and a principal-component view coordinate through shared brushing; each selection recomputes a selected-versus-remaining median scheduled-departure comparison and an hourly profile. A dated GTFS snapshot contains 8,252 active stops and 1,153,216 qualifying stop-time departures for Wednesday 18 November 2026. The system exposes central service concentration and profile differences while separating schedule evidence from claims about observed reliability, passenger demand or accessibility.
+\end{abstract}
+
+\section{Problem and users}
+Transit planners and transport researchers may need to find stops that warrant closer route-level study. A citywide count can locate busy hubs but hides differences between stops; a map preserves location but does not expose combinations of service volume, route diversity and time profile. We designed an exploratory path that moves from a geographic region to a multivariate service profile and back. The domain questions are where scheduled service is concentrated, whether a selected group has a different typical departure count from the rest, and how its departures are distributed over a day.
+
+\section{Related work and design framework}
+Munzner's nested model separates domain questions, data and task abstraction, visual encodings and algorithms; the companion project documents record decisions at these levels~\cite{munzner}. Sacha et al. describe interactions that connect dimensionality reduction to other views, including selection and emphasis~\cite{sacha}. We use a fixed PCA projection linked to a geographic view. The GTFS Schedule Reference defines the source tables and the meaning of a stop-time departure; it also distinguishes scheduled times from observed operation~\cite{gtfs}. Roma Servizi per la Mobilit\`a publishes the Rome feed and notes that its service information can vary in operation~\cite{rsm}.
+
+\section{Data and abstraction}
+We downloaded the official static GTFS ZIP on 16 November 2026 and selected service IDs active on 18 November using \texttt{calendar\_dates.txt}. We joined active trips, routes, stop times and stops. One application row is one active \texttt{stop\_id}. We excluded records explicitly marked as no-pickup and stops with invalid or out-of-bounds coordinates. The resulting subset has 8,252 active stops from 8,325 valid-coordinate stops, 38,558 active trips, 403 active routes and 1,153,216 scheduled stop-time departures. A stop is not a station complex: nearby platforms may have distinct IDs. Times after 24:00 are folded to their clock hour in the hourly display but remain part of the chosen GTFS service day.
+
+The five PCA inputs are log scheduled departures, log distinct routes, morning (07--09) departure share, evening (17--19) share and rail-mode share. The first two are counts; the last three are proportions. Each feature is clipped at its 1st and 99th percentiles for PCA only and then standardized. Raw counts remain in the numerical comparison. Singular-value decomposition yields the projection; signs are set so positive PC1 corresponds to more departures and positive PC2 to larger morning share. PC1 explains 36.62\% and PC2 28.09\% of feature variance.
+
+\begin{table}[h]
+\centering
+\caption{Audit of the selected GTFS service date. Counts refer to published schedule records.}
+\begin{tabular}{lr}
+\toprule
+Measure & Count \\
+\midrule
+Stops with bounded, valid coordinates & 8,325 \\
+Active stops after date join & 8,252 \\
+Active trips & 38,558 \\
+Active routes & 403 \\
+Eligible stop-time departures & 1,153,216 \\
+\bottomrule
+\end{tabular}
+\label{tab:audit}
+\end{table}
+
+\section{Views and interaction}
+The map places each stop by published longitude and latitude. A rectangle brush or point click selects stops. The PCA scatterplot places the same stops by PC1 and PC2, allowing the analyst to find similar service profiles before locating them geographically. Selection is stored as a shared set of stop indexes; both views draw the same selected marks. A named, ranked list of the twelve busiest stops offers a direct entry point. The selection panel reports selected and remaining median scheduled departures per stop, their arithmetic difference, median distinct routes and rail-mode share. An hourly bar chart is recomputed from the selected stop-time totals. The calculation therefore follows a visual interaction rather than a menu filter.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{coordinated_views.png}
+\caption{A PCA brush (dark marks) selects 717 stops and highlights their locations in the map. The projection axes remain fixed across selections; the summary and hourly view update to the selected group.}
+\label{fig:views}
+\end{figure}
+
+The encoding uses geographic position for location and PCA position for multivariate profile. Selection is shown with dark marks against muted unselected marks in both plots. Text labels and exact values accompany the visual density. We rejected a choropleth because aggregating into areas would hide adjacent stops with different schedules. We rejected recomputing PCA after every brush because moving axes would make before-and-after comparison unstable. The two-dimensional projection leaves 35.29\% of standardized feature variance outside the display; proximity in the scatterplot is only a summary, not proof of equivalent service.
+
+\section{Exploratory findings and validation}
+The feed's busiest stop ID in this analysis is PLEBISCITO, with 2,298 scheduled departures across 32 distinct routes. This is a count of published stop-time records, not passengers. Stops with PC1 greater than 1 (1,953 stops) have a median of 250 departures and five routes per stop; stops with PC1 below $-1$ (2,375 stops) have medians of 46 departures and one route. These are exploratory projection thresholds. Because departure count and route diversity are inputs to PC1, the separation confirms the component's interpretation and is not an independent discovery about service equity. For PC2 greater than 1, the morning/evening shares of all departures are 18.3\% and 17.7\%; below $-1$, they are 12.6\% and 11.6\%. This suggests a useful time-profile contrast to investigate further, while leaving route composition and geography as possible explanations.
+
+A local headless Chrome test checked data loading, a named-stop selection against the prepared data, map-to-PCA and PCA-to-map brushing, summary updates, clearing and absence of JavaScript errors. One run loaded in 572 ms and completed the two browser-driven brushes in 35 and 27 ms on the test machine. A target-user walkthrough and repeated performance tests remain necessary before final submission. The one-day schedule says nothing about actual arrival times, cancellations, crowding, ridership or the population near a stop. The static feed can also change between publication dates.
+
+\section{Discussion and threats to validity}
+The two linked selection directions support different analytical starts. A geographic brush tests whether a place contains a mix of service profiles. A PCA brush tests whether a profile is spatially concentrated or scattered. The comparison cards keep both the selected and remaining denominators visible. This matters because a large absolute number of departures may describe a few central stops, while a broad peripheral selection can contain many lower-volume stops. The hourly view gives an additional check: two groups with similar daily medians may serve different parts of the day.
+
+The interpretation is sensitive to the unit of analysis. A physical interchange may contain multiple GTFS stop IDs, while a single stop ID can serve many routes. We therefore describe results as \emph{per-stop scheduled records}, not station capacity or network accessibility. The PCA features contain overlapping information: departures and route count are correlated, and morning and evening shares depend on the same total. Their loadings are descriptive rather than independent effects. The projection also compresses 35.29\% of standardized variance into unshown components. Comparing the selected medians with the full unselected group does not control for route type, geography or stop function, so a difference should lead to a more specific follow-up question, not a policy ranking.
+
+The next validation step is to ask a target user to perform a geographic comparison and a profile-to-map lookup without guidance, then note where labels or encodings cause uncertainty. A future version could add spatial zoom, route-level details and an archived multi-date feed. Observed arrival records and passenger counts would be needed for reliability or demand questions.
+
+\section*{AI Usage Declaration}
+Codex assisted with source discovery and generated the data preparation script, dashboard code, browser test, project documents and this working paper draft. These outputs and the interpretations require student review before submission. The complete use log is in \texttt{docs/ai-log.md}; the project does not claim that a user study or course approval has occurred.
+
+\begin{thebibliography}{9}
+\bibitem{munzner} T. Munzner, ``A nested model for visualization design and validation,'' \emph{IEEE TVCG}, 15(6), 2009. doi:10.1109/TVCG.2009.111.
+\bibitem{sacha} D. Sacha et al., ``Visual interaction with dimensionality reduction: A structured literature analysis,'' \emph{IEEE TVCG}, 23(1), 2017. doi:10.1109/TVCG.2016.2598495.
+\bibitem{gtfs} MobilityData, \emph{GTFS Schedule Reference}. \url{https://gtfs.org/documentation/schedule/reference/}.
+\bibitem{rsm} Roma Servizi per la Mobilit\`a, \emph{Open data e controllo satellitare del trasporto pubblico (AVM)}. \url{https://romamobilita.it/sistemi-e-tecnologie/open-data/}. Accessed 16 November 2026.
+\end{thebibliography}
+\end{document}

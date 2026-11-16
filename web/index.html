@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rome scheduled transit | Visual analytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div><p class="eyebrow">Visual analytics · Rome · 18 November 2026 timetable</p><h1>Where is scheduled transit service concentrated?</h1>
+      <p class="intro">Compare stops by location, scheduled departures, route diversity and time-of-day profile. Brush either view to recompute the comparison.</p></div>
+    <a href="https://romamobilita.it/sistemi-e-tecnologie/open-data/" target="_blank" rel="noopener">Data: Roma Mobilità ↗</a>
+  </header>
+  <main>
+    <section class="summary" aria-label="Selection analysis">
+      <div class="summary-title"><h2>Selection analysis</h2><button id="clear">Clear selection</button></div>
+      <p id="status" aria-live="polite">Loading the timetable…</p>
+      <div class="stats">
+        <div><span>Selected stops</span><strong id="count">—</strong></div>
+        <div><span>Median departures / stop</span><strong id="departures">—</strong></div>
+        <div><span>Remaining stops median</span><strong id="baseline">—</strong></div>
+        <div><span>Selected minus remaining</span><strong id="delta">—</strong></div>
+      </div>
+      <p id="mix" class="mix"></p>
+    </section>
+    <div class="views">
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 01 · GEOGRAPHY</p><h2>Scheduled stops across Rome</h2></div><p>Brush a rectangle or click a stop</p></div>
+        <div class="plot" id="map-wrap"><canvas id="map" aria-label="Geographic scatterplot of Rome transit stops"></canvas><div class="brush" id="map-brush"></div></div>
+        <p class="note">Each dot is one scheduled stop. Dark dots are selected in both views. Coordinates come from the GTFS stop table.</p>
+      </section>
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 02 · STOP PROFILES</p><h2>Service patterns (PCA)</h2></div><p>Brush a rectangle or click a stop</p></div>
+        <div class="plot" id="pca-wrap"><canvas id="pca" aria-label="PCA scatterplot of stop service profiles"></canvas><div class="brush" id="pca-brush"></div></div>
+        <p class="note" id="pca-note">PCA summarizes scheduled departures, route diversity, morning and evening shares, and rail-mode share.</p>
+      </section>
+    </div>
+    <div class="views lower-views">
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 03 · TIME PROFILE</p><h2>Departures by clock hour</h2></div></div>
+        <div id="hours" class="hour-chart" aria-label="Hourly scheduled departures for selected stops"></div>
+        <p class="note">Share of scheduled departures in each clock hour for the selected stops; choose a group to reveal its pattern. Times after 24:00 are folded to the next clock hour.</p>
+      </section>
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 04 · BUSIEST STOPS</p><h2>Top stops by departures</h2></div><p>Click a stop to locate it</p></div>
+        <div id="top-stops" class="districts"></div>
+        <p class="note">Counts are scheduled stop departures for the selected service date; they are not passenger counts.</p>
+      </section>
+    </div>
+    <section class="method"><h2>How to interpret this view</h2>
+      <p>Map and PCA selections coordinate in both directions. Each visual selection triggers a new median-departure comparison and an hourly departure profile. The first two PCA axes explain <span id="variance">—</span> of standardized feature variance. A point's PCA distance is a summary of five features, not a route distance.</p>
+      <p>This is a static schedule for Wednesday 18 November 2026, retrieved 16 November. It does not measure vehicle arrivals, delays, crowding, demand, or access. The feed can change. See the <a href="../data_validation.json">data audit</a> and <a href="../docs/04-algorithms.md">method details</a>.</p>
+    </section>
+  </main>
+  <footer>Roma Servizi per la Mobilità GTFS · Snapshot retrieved 16 November 2026 · Visual Analytics coursework</footer>
+  <script src="app.js" defer></script>
+</body>
+</html>

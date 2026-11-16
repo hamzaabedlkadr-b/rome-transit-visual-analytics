@@ -1,0 +1,52 @@
+{
+  "source": "Roma Servizi per la Mobilit\u00e0, static GTFS downloaded 2026-11-16",
+  "source_url": "https://romamobilita.it/sistemi-e-tecnologie/open-data/",
+  "service_date": "2026-11-18",
+  "active_service_ids": 482,
+  "active_trips": 38558,
+  "source_stops_with_valid_coordinates": 8325,
+  "malformed_coordinate_stops": 0,
+  "active_stops": 8252,
+  "active_stop_departures": 1153216,
+  "excluded_no_pickup_stop_times": 0,
+  "scheduled_departures_per_stop_median": 101.0,
+  "scheduled_departures_per_stop_max": 2298,
+  "unique_routes_active": 403,
+  "pca_features": [
+    "log_departures",
+    "log_routes",
+    "morning_share",
+    "evening_share",
+    "rail_share"
+  ],
+  "pca_variance_ratio": [
+    0.366157,
+    0.280921,
+    0.204982,
+    0.116365,
+    0.031575
+  ],
+  "pca_loadings": {
+    "log_departures": [
+      0.6541,
+      0.3092
+    ],
+    "log_routes": [
+      0.6859,
+      0.1157
+    ],
+    "morning_share": [
+      -0.2748,
+      0.6165
+    ],
+    "evening_share": [
+      -0.1618,
+      0.695
+    ],
+    "rail_share": [
+      0.0019,
+      0.1671
+    ]
+  },
+  "interpretation": "Scheduled service, not observed arrivals, reliability, ridership or accessibility."
+}
