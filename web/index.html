@@ -9,8 +9,8 @@
 <body>
   <header>
     <div><p class="eyebrow">Visual analytics · Rome · 18 November 2026 timetable</p><h1>Where is scheduled transit service concentrated?</h1>
-      <p class="intro">Compare stops by location, scheduled departures, route diversity and time-of-day profile. Brush either view to recompute the comparison.</p>
-      <nav class="view-nav" aria-label="Dashboard sections"><a href="#linked-views">Map and PCA</a><a href="#detail-views">Hourly chart and busiest stops ↓</a><a href="#research-figures">Analysis figures ↓</a></nav></div>
+      <p class="intro">Compare stops by location, scheduled departures, route diversity and time-of-day profile. Seven views share one selection: brush or click any of them and all others update, with the comparison recomputed.</p>
+      <nav class="view-nav" aria-label="Dashboard sections"><a href="#linked-views">Map and PCA</a><a href="#detail-views">Hourly, volume, routes, distance and busiest stops ↓</a><a href="#research-figures">Analysis figures ↓</a></nav></div>
     <a href="https://romamobilita.it/sistemi-e-tecnologie/open-data/" target="_blank" rel="noopener">Data: Roma Mobilità ↗</a>
   </header>
   <main>
@@ -29,7 +29,7 @@
       <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 01 · GEOGRAPHY</p><h2>Scheduled stops across Rome</h2></div><p>Brush a rectangle or click a stop</p></div>
         <div class="plot" id="map-wrap"><canvas id="map" aria-label="Geographic scatterplot of Rome transit stops"></canvas><div class="brush" id="map-brush"></div><div class="tooltip" id="map-tip"></div></div>
         <div class="point-legend"><span class="legend-dot muted"></span> All stops <span class="legend-dot dark"></span> Selected stops</div>
-        <p class="note">Each dot is one scheduled stop. Dark dots are selected in both views. Coordinates come from the GTFS stop table.</p>
+        <p class="note">Each dot is one scheduled stop. Dark dots are the current selection, from any view. Coordinates come from the GTFS stop table.</p>
       </section>
       <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 02 · STOP PROFILES</p><h2>Service patterns (PCA)</h2></div><p>Brush a rectangle or click a stop</p></div>
         <div class="plot" id="pca-wrap"><canvas id="pca" aria-label="PCA scatterplot of stop service profiles"></canvas><div class="brush" id="pca-brush"></div><div class="tooltip" id="pca-tip"></div></div>
@@ -38,18 +38,33 @@
       </section>
     </div>
     <div class="views lower-views" id="detail-views">
-      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 03 · TIME PROFILE</p><h2>Departures by clock hour</h2></div></div>
-        <p id="hour-scale" class="scale-note">Select stops to show the share scale.</p>
-        <div id="hours" class="hour-chart" aria-label="Hourly scheduled departures for selected stops"></div>
-        <p class="note">Share of scheduled departures in each clock hour for the selected stops; choose a group to reveal its pattern. Times after 24:00 are folded to the next clock hour.</p>
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 03 · TIME PROFILE</p><h2>Departures by clock hour</h2></div><p>Drag across hours or click one</p></div>
+        <div id="hours-chart" class="bar-chart"></div>
+        <div class="point-legend"><span class="legend-sq all"></span> All stops <span class="legend-sq sel"></span> Selected stops</div>
+        <p class="note">Bars: share of scheduled departures in each clock hour, for all stops and for the selection. Dragging selects stops whose <b>busiest scheduled hour</b> falls in the range. Times after 24:00 are folded to their clock hour.</p>
       </section>
-      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 04 · BUSIEST STOPS</p><h2>Top stops by departures</h2></div><p>Click a stop to locate it</p></div>
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 04 · SERVICE VOLUME</p><h2>Scheduled departures per stop</h2></div><p>Drag across bins or click one</p></div>
+        <div id="departures-chart" class="bar-chart"></div>
+        <div class="point-legend"><span class="legend-sq all"></span> All stops <span class="legend-sq sel"></span> Selected stops</div>
+        <p class="note">Bars: share of each group’s stops in each departure-count bin (logarithmic bins). Dragging selects all stops in the chosen bins.</p>
+      </section>
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 05 · ROUTE DIVERSITY</p><h2>Distinct routes per stop</h2></div><p>Drag across bins or click one</p></div>
+        <div id="routes-chart" class="bar-chart"></div>
+        <div class="point-legend"><span class="legend-sq all"></span> All stops <span class="legend-sq sel"></span> Selected stops</div>
+        <p class="note">Bars: share of each group’s stops by number of distinct routes calling there. Dragging selects those stops.</p>
+      </section>
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">VIEW 06 · DISTANCE</p><h2>Distance from Termini</h2></div><p>Drag across bands or click one</p></div>
+        <div id="distance-chart" class="bar-chart"></div>
+        <div class="point-legend"><span class="legend-sq all"></span> All stops <span class="legend-sq sel"></span> Selected stops</div>
+        <p class="note">Bars: share of each group’s stops by straight-line distance from the GTFS Termini stop. A geographic descriptor, not accessibility.</p>
+      </section>
+      <section class="panel wide"><div class="panel-head"><div><p class="eyebrow">VIEW 07 · BUSIEST STOPS</p><h2 id="top-title">Busiest stops citywide</h2></div><p>Lists the busiest stops inside the current selection; click one to select it</p></div>
         <div id="top-stops" class="districts"></div>
         <p class="note">Counts are scheduled stop departures for the selected service date; they are not passenger counts.</p>
       </section>
     </div>
     <section class="method"><h2>How to interpret this view</h2>
-      <p>Map and PCA selections coordinate in both directions. Each visual selection triggers a new median-departure comparison and an hourly departure profile. The first two PCA axes explain <span id="variance">—</span> of standardized feature variance. A point's PCA distance is a summary of five features, not a route distance.</p>
+      <p>All seven views coordinate in both directions: each can set the shared stop selection by brushing or clicking, and each redraws to show it. Every selection triggers a new selected-versus-remaining median comparison and recomputes the distributions in views 03–06 and the ranked list in view 07. The first two PCA axes explain <span id="variance">—</span> of standardized feature variance. A point's PCA distance is a summary of five features, not a route distance.</p>
       <p>This is a static schedule for Wednesday 18 November 2026, retrieved 16 November. It does not measure vehicle arrivals, delays, crowding, demand, or access. The feed can change. See the <a href="../data_validation.json">data audit</a> and <a href="../docs/04-algorithms.md">method details</a>.</p>
     </section>
     <section class="panel research" id="research-figures"><div class="panel-head"><div><p class="eyebrow">EVIDENCE FROM THE SAME SNAPSHOT</p><h2>Analysis figures</h2></div><p>Static companion figures for the paper</p></div>

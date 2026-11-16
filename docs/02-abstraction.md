@@ -31,6 +31,10 @@ A planner or researcher performs all four steps. For example, brushing a low-PC1
 
 An independent geographic check uses straight-line distance from the Termini GTFS stop to group stops into radial bands. Median scheduled departures per stop decline from 195.5 in the 0–3 km band to 56 in the 20–60 km band. The [report figure](../report/figures/service_radius.png) also shows the within-band spread and hourly profiles. This is a descriptive check of the same one-day schedule; distance does not measure access or demand.
 
+## Worked usage scenario and insight
+
+Starting with the distance chart, the analyst selects the 0–3 km band. The input is the dated set of 8,252 active stops; the selection returns 840 stop IDs. The map shows that group's locations and the fixed PCA plot shows its mix of profiles. The computation reports a selected median of 195.5 scheduled departures per stop, compared with 96 for the 7,412 remaining stops; median distinct routes are three versus two. The analyst can then inspect the selected group's hourly bars and brush a PCA region to locate a narrower profile. These numbers describe this service date and support a route-level follow-up question, not a claim that central stops are more accessible or that distance causes the difference.
+
 ## Data quality and scope
 
 The snapshot has 8,325 stops with valid bounded coordinates; 8,252 receive at least one scheduled departure on the selected date. It includes 38,558 active trips and 1,153,216 qualifying stop-time departures. Stop IDs, not physical station complexes, define the units. Platforms or nearby poles may therefore count separately. The app does not infer trips per person or travel-time accessibility.

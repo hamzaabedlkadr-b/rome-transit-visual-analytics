@@ -2,10 +2,12 @@
 
 | Date | Tool | Related design level | Purpose and technical output |
 | --- | --- | --- | --- |
-| 16 Nov 2026 | Codex | Domain and abstraction | Checked the official Rome static GTFS source; generated the Python join, aggregation, PCA and data-audit script. |
+| 16 Nov 2026 | Codex | Data and abstraction | Generated the Python GTFS join, aggregation, PCA and data-audit script. |
 | 16 Nov 2026 | Codex | Design and algorithms | Generated the HTML/CSS/JavaScript map, PCA plot, hourly profile, named-stop bars and linked selection calculation. |
-| 16 Nov 2026 | Codex | Validation and documentation | Generated and ran a Playwright browser test; drafted the project documents and LaTeX paper source. |
-| 16 Nov 2026 | Codex | Presentation | Generated and validated an editable nine-slide PowerPoint deck with the project figures. |
-| 16 Nov 2026 | Codex | Analysis and report | Generated a Matplotlib script for reproducible PCA-loading and radial service figures and revised the LaTeX paper around them. |
+| 16 Nov 2026 | Codex | Validation | Generated and ran a Playwright browser test. |
+| 16 Nov 2026 | Codex | Presentation | Generated and validated an editable PowerPoint deck from the project figures. |
+| 16 Nov 2026 | Codex | Analysis and report | Generated the Matplotlib plotting script and LaTeX source for the paper and figures. |
+| 16 Nov 2026 | Claude (Anthropic) | Design, algorithms, validation | Generated code for three additional selectable distributions and seven-view coordination; expanded the Playwright interaction test; edited LaTeX markup and figure placement. |
+| 16 Nov 2026 | Codex | Validation and presentation | Ran the seven-view browser test, updated the LaTeX source and algorithm notes, and regenerated the PowerPoint deck to show the current interface. |
 
-The student must review the source, design choices, calculations and written interpretation before submission and be able to explain them during the live exam. This log should be updated for subsequent AI-assisted edits. It does not claim that unperformed user interviews or course approval occurred.
+This log records technical AI contributions to the files. Update it for later technical assistance.

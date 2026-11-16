@@ -10,11 +10,11 @@ The five features are `log1p(departures)`, `log1p(distinct routes)`, morning sha
 
 ## Selection-triggered computation
 
-Canvas pointer events define a screen rectangle. The app tests every stop's screen position and stores the matching row indexes in one `Set`. Both plots redraw using the same set. For selected and remaining groups, the app computes separate medians of scheduled departures per stop; the difference is selected minus remaining. It also aggregates the selected group's hourly departures, median route count and rail-mode share. A point click selects the nearest stop within nine screen pixels.
+Canvas pointer events define a screen rectangle. The app tests every stop's screen position and stores the matching row indexes in one `Set`. Map and PCA use that rectangle or a nearest-point click. Dragging a range in the hourly, departure, route or distance chart builds a stop set from the selected bins; hourly brushing uses each stop's busiest scheduled hour, while its bars display departure shares. The ranked list selects a named stop. All seven views redraw from the same set. The app computes separate selected and remaining medians of scheduled departures per stop and their difference, plus hourly departures, median route count, rail-mode share and median distance from Termini.
 
 ## Complexity and observed performance
 
-Each selection scans at most 8,252 stops. Median sorting is O(n log n); redraw is O(n). A local headless Chrome run loaded the page and JSON in about 572 ms and completed two browser-driven brushes in 35 and 27 ms respectively on the test machine. These are measurements of one run, not guarantees across devices. Browser tests also checked a top-stop value against prepared source data, linked selection, clearing and JavaScript errors.
+Each selection scans at most 8,252 stops. Median sorting is O(n log n); redraw across the views is O(n) in the number of stops. In one headless Chrome run on the development machine, the page and JSON loaded in 595 ms and seven browser-driven selections took 51–194 ms each, including simulated input and redraw. These are one-run measurements, not guarantees across devices. The browser test checked selection from every view, updates in the six other views, the top-stop value, clearing and JavaScript errors.
 
 ## Alternatives rejected
 

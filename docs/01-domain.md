@@ -4,6 +4,8 @@
 
 The intended users are Rome transit planners and transport researchers who want to examine the *published supply* of service across stops. A schedule can identify high-volume hubs, differences in route diversity and distinctive time profiles. It cannot measure whether vehicles arrived as planned, whether a rider could board, or whether a neighbourhood has equitable access. Those questions require additional data.
 
+This user definition and the task priorities are assumptions derived from the feed's available fields and the course's requirement for an exploratory analysis; no planner or researcher has been interviewed. A walkthrough with one such user would test whether comparing stop-level supply and returning from profile to geography fits a real workflow.
+
 ## Questions and tasks
 
 1. **Locate:** Where are high- and low-volume scheduled stops? Which named stops deserve closer inspection?

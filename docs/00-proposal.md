@@ -9,6 +9,8 @@
 
 **Proposed system.** A geographic stop view and a PCA view of five stop-level service features share a selection. Brushing either view highlights the same stops in the other. Every selection recomputes median scheduled departures for selected versus remaining stops and an hourly departure profile. Ranked busiest-stop bars offer a named entry point. The projection provides a route back from an unusual multivariate profile to its location.
 
+**Implementation note.** The working prototype later expanded this plan to seven coordinated selection sources. The current views and reasons for them are recorded in `docs/03-design.md`; this proposal remains a draft until the course reviews it.
+
 **Evaluation plan.** Reconcile counts against the GTFS tables; verify linked brushing and median calculations in a browser; measure load and interaction time; conduct a walkthrough with a potential user and record how the design changed. Document limitations of the timetable and PCA.
 
 **Source:** [Roma Servizi per la Mobilità open data](https://romamobilita.it/sistemi-e-tecnologie/open-data/), static GTFS download 16 November 2026. Definitions follow the [GTFS Schedule Reference](https://gtfs.org/documentation/schedule/reference/).
