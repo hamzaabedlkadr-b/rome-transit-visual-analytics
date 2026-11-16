@@ -55,7 +55,7 @@ For browser checks, install Node dependencies with `npm install`, keep the local
 - `prepare_data.py`, `data_validation.json`: reproducible preparation and audit
 - `docs/`: proposal, domain, abstraction, design, algorithms and AI log
 - `report/main.tex`: compiling scientific-paper source and figure
-- `presentation/`: talk outline and live-demo script
+- `presentation/`: editable eight-slide PowerPoint deck, talk outline and live-demo script
 - `prototype.png`: full dashboard capture
 
 ## Submission path

@@ -5,3 +5,5 @@ __pycache__/
 report/*.aux
 report/*.log
 report/*.out
+.presentation-build/
+.codex-finalizer/
